@@ -1,0 +1,17 @@
+chunk_size,summarization_model,reranking_model,synthesis_model,hyde,top_k,average_max_score,min_max_score,relevance_average,faithfulness_average
+512,meta.llama3-1-8b-instruct-v1:0,cohere.rerank-v3-5:0,meta.llama3-1-8b-instruct-v1:0,True,5,0.935390613581005,0.8657814264297485,1.0,1.0
+512,meta.llama3-1-8b-instruct-v1:0,cohere.rerank-v3-5:0,meta.llama3-1-8b-instruct-v1:0,False,5,0.9061713281430697,0.8242501616477966,0.9473684210526315,1.0
+512,meta.llama3-1-8b-instruct-v1:0,cohere.rerank-v3-5:0,meta.llama3-1-8b-instruct-v1:0,True,10,0.9261549868081745,0.8044216632843018,1.0,1.0
+512,meta.llama3-1-8b-instruct-v1:0,cohere.rerank-v3-5:0,meta.llama3-1-8b-instruct-v1:0,False,10,0.9061713281430697,0.8242501616477966,1.0,1.0
+512,meta.llama3-1-8b-instruct-v1:0,amazon.rerank-v1:0,meta.llama3-1-8b-instruct-v1:0,True,5,0.8681246512814572,0.6957516670227051,1.0,1.0
+512,meta.llama3-1-8b-instruct-v1:0,amazon.rerank-v1:0,meta.llama3-1-8b-instruct-v1:0,False,5,0.5208826659149245,0.018124720081686974,0.9473684210526315,1.0
+512,meta.llama3-1-8b-instruct-v1:0,amazon.rerank-v1:0,meta.llama3-1-8b-instruct-v1:0,True,10,0.8964362018986752,0.6957516670227051,1.0,1.0
+512,meta.llama3-1-8b-instruct-v1:0,amazon.rerank-v1:0,meta.llama3-1-8b-instruct-v1:0,False,10,0.5208826659149245,0.018124720081686974,1.0,1.0
+512,meta.llama3-1-8b-instruct-v1:0,cohere.rerank-v3-5:0,meta.llama3-1-70b-instruct-v1:0,True,5,0.89412837593179,0.7323052883148193,0.9473684210526315,1.0
+512,meta.llama3-1-8b-instruct-v1:0,cohere.rerank-v3-5:0,meta.llama3-1-70b-instruct-v1:0,False,5,0.9061713281430697,0.8242501616477966,1.0,1.0
+512,meta.llama3-1-8b-instruct-v1:0,cohere.rerank-v3-5:0,meta.llama3-1-70b-instruct-v1:0,True,10,0.9325232882248727,0.8449345827102661,0.9473684210526315,1.0
+512,meta.llama3-1-8b-instruct-v1:0,cohere.rerank-v3-5:0,meta.llama3-1-70b-instruct-v1:0,False,10,0.9061713281430697,0.8242501616477966,1.0,1.0
+512,meta.llama3-1-8b-instruct-v1:0,amazon.rerank-v1:0,meta.llama3-1-70b-instruct-v1:0,True,5,0.8500368736292186,0.135232076048851,1.0,1.0
+512,meta.llama3-1-8b-instruct-v1:0,amazon.rerank-v1:0,meta.llama3-1-70b-instruct-v1:0,False,5,0.5208826659149245,0.018124720081686974,0.9473684210526315,1.0
+512,meta.llama3-1-8b-instruct-v1:0,amazon.rerank-v1:0,meta.llama3-1-70b-instruct-v1:0,True,10,0.92105801168241,0.7816641330718994,0.9473684210526315,1.0
+512,meta.llama3-1-8b-instruct-v1:0,amazon.rerank-v1:0,meta.llama3-1-70b-instruct-v1:0,False,10,0.5208826659149245,0.018124720081686974,1.0,1.0

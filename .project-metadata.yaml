@@ -1,0 +1,59 @@
+name: RAG Studio
+description: | 
+  "Build a RAG application to ask questions about your documents.  Configuration for access to models will be available inside the application itself once it has been deployed."
+author: "Cloudera"
+date: "2024-09-10"
+specification_version: 1.0
+prototype_version: 1.0
+
+
+runtimes:
+  - editor: JupyterLab
+    kernel: Python 3.10
+    edition: Standard
+
+tasks:
+  - type: create_job
+    name: Download/Install Project Dependencies
+    entity_label: install_dependencies
+    arguments: none
+    script: scripts/01_install_base.py
+    short_summary: Create Job to Install Project Dependencies
+    kernel: python3
+    cpu: 2
+    memory: 4
+    environment:
+      TASK_TYPE: CREATE/RUN_JOB
+
+  - type: run_job
+    entity_label: install_dependencies
+    short_summary: Run Job to Install Project Dependencies
+    long_summary: Run Job to Install Project Dependencies
+
+  - type: create_job
+    name: Update/build RAG Studio
+    entity_label: refresh_project
+    script: scripts/refresh_project.py
+    arguments: None
+    cpu: 2
+    memory: 4
+    short_summary: Create job to allow refreshing the project from source and rebuilding.
+    environment:
+      TASK_TYPE: CREATE/RUN_JOB
+
+  - type: run_job
+    entity_label: refresh_project
+    short_summary: Run job to refresh the project from source and rebuilding.
+
+  - type: start_application
+    name: RagStudio
+    subdomain: ragstudio
+    bypass_authentication: false
+    static_subdomain: false
+    script: scripts/startup_app.py
+    short_summary: Create and start RagStudio.
+    long_summary: Create and start RagStudio.
+    cpu: 2
+    memory: 4
+    environment_variables:
+      TASK_TYPE: START_APPLICATION

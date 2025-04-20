@@ -1,0 +1,6 @@
+pnpm-lock.yaml
+server/pnpm-lock.yaml
+.prettierignore
+.husky
+**/*.svg
+Dockerfile

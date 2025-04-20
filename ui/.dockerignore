@@ -1,0 +1,7 @@
+node_modules
+.git
+.gitignore
+*.md
+/dist
+server/node_modules
+server/dist

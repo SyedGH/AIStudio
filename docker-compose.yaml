@@ -1,0 +1,69 @@
+services:
+  api:
+    build: backend
+    develop:
+      watch:
+        - action: rebuild
+          path: .
+    ports:
+      - "8080:8080"
+      - "9464:9464"
+    environment:
+      - API_HOST=0.0.0.0
+      - DB_URL=jdbc:postgresql://db:5432
+      - DB_TYPE=PostgreSQL
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://tempo:4318
+      - OTEL_METRICS_EXPORTER=none # we configure this by hand
+      - OTEL_LOGS_EXPORTER=none
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_PROPAGATORS=tracecontext
+      - S3_RAG_DOCUMENT_BUCKET=cloudera-ai-rag-dev-us-west-2
+      - LLM_SERVICE_URL=http://rag-backend:8081
+      - AWS_DEFAULT_REGION=us-west-2
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - S3_RAG_BUCKET_PREFIX=${S3_RAG_BUCKET_PREFIX}
+    depends_on:
+      - db
+      - rag-backend
+  ui:
+    build: ui
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+      - rag-backend
+    environment:
+      - API_URL=http://api:8080
+      - LLM_SERVICE_URL=http://rag-backend:8081
+      - NODE_ENV=development
+      - NODE_HOST=0.0.0.0
+  rag-backend:
+    build: llm-service
+    develop:
+      watch:
+        - action: rebuild
+          path: .
+    ports:
+      - "8081:8081"
+    environment:
+      - AWS_DEFAULT_REGION=us-west-2
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - S3_RAG_DOCUMENT_BUCKET=cloudera-ai-rag-dev-us-west-2
+      - QDRANT_HOST=qdrant
+      - API_URL=http://api:8080
+    depends_on:
+      - qdrant
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - "5432:5432"
+  qdrant:
+    image: qdrant/qdrant
+    ports:
+      - "6333:6333"
+    environment:
+      - RUST_LOG=info

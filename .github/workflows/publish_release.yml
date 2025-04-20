@@ -1,0 +1,106 @@
+name: Publish a release
+
+permissions: write-all
+
+on:
+  workflow_dispatch:
+    inputs:
+      VERSION:
+        description: 'Version to release'
+        required: true
+      BRANCH:
+        description: 'Branch to use for release'
+        required: true
+        default: 'main'
+        type: choice
+        options:
+          - main
+          - mob/main
+          - release/1
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.BRANCH }}
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: gradle
+          cache-dependency-path: backend/build.gradle.kts
+
+      - name: Run Java backend tests
+        run: ./gradlew test
+        working-directory: backend
+
+      - name: Build with Gradle
+        run: ./gradlew build
+        working-directory: backend
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+          cache-dependency-path: ui/pnpm-lock.yaml
+
+      - name: Install UI Dependencies
+        run: pnpm install --no-frozen-lockfile
+        working-directory: ui
+
+      - name: Lint with PNPM
+        run: pnpm lint
+        working-directory: ui
+
+      - name: Run frontend tests
+        run: pnpm test
+        working-directory: ui
+
+      - name: Install and build with pnpm
+        run: |
+          pnpm build
+          tar --no-xattrs -czvf fe-dist.tar.gz dist
+        working-directory: ui
+
+      - name: release
+        uses: softprops/action-gh-release@v2
+        id: create_release
+        with:
+          draft: false
+          prerelease: ${{ github.event.inputs.BRANCH != 'release/1' }}
+          make_latest: ${{ github.event.inputs.BRANCH == 'release/1' }}
+          name: ${{ github.event.inputs.VERSION }}
+          tag_name: ${{ github.event.inputs.VERSION }}
+          files: |
+            backend/build/libs/rag-api.jar
+            ui/fe-dist.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: update release version
+        run: |
+            git config --local user.name actions-user
+            git config --local user.email "actions@github.com"
+            echo "export RELEASE_TAG=${{ github.event.inputs.VERSION }}" > release_version.txt
+            git add release_version.txt
+            if ! git diff --cached --quiet; then
+              git commit -m "Update release version to ${{ github.event.inputs.VERSION }}"
+              git push
+            else
+              echo "No changes to commit"
+            fi
+        working-directory: scripts
+        env:
+          GITHUB_TOKEN: ${{ github.token }}

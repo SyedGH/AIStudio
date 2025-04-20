@@ -1,0 +1,12 @@
+.env
+.idea/*
+.vscode/*
+!.idea/copyright/
+!.idea/prettier.xml
+!.idea/google-java-format.xml
+chat_store.json
+databases/
+**/docling-output.txt
+**/.DS_Store
+local-dev.ps1
+.history
