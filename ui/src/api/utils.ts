@@ -37,7 +37,7 @@
  ******************************************************************************/
 
 export const ragPath = "/api/v1/rag";
-export const llmServicePath = "http://127.0.0.1:8000";
+export const llmServicePath = "/llm-service";
 
 export const paths = {
   files: "files",

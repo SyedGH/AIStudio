@@ -166,7 +166,7 @@ export const useGetAmpConfig = (poll?: boolean) => {
 export const getAmpConfig = async (): Promise<ProjectConfig | undefined> => {
   const res = await fetch(`${llmServicePath}/amp/config`, {
     method: "GET",
-    headers: { ...commonHeaders, "remote-user-perm":"RW" },
+    headers: { ...commonHeaders},
   });
   if (!res.ok) {
     return Promise.resolve(undefined);
