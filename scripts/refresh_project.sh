@@ -72,10 +72,7 @@ uv sync --no-dev
 cd ..
 mkdir -p artifacts
 
-RELEASE_URL=https://github.com/cloudera/CML_AMP_RAG_Studio/releases/latest/download
-if  [ -n "${RELEASE_TAG}" ] && [ "${RELEASE_TAG}" != "latest" ]; then
-    RELEASE_URL=https://github.com/cloudera/CML_AMP_RAG_Studio/releases/download/${RELEASE_TAG}
-fi
+RELEASE_URL=https://github.com/HusseinKdouh/AIStudio/releases/tag/main
 
 echo "Downloading release artifacts from ${RELEASE_URL}"
 wget "${RELEASE_URL}/rag-api.jar" -O artifacts/rag-api.jar
