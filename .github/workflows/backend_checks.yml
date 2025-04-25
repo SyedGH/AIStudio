@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Make script executable
+        run: chmod +x ./startup_java.sh
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
