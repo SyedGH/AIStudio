@@ -78,6 +78,11 @@ jobs:
           tar --no-xattrs -czvf fe-dist.tar.gz dist
         working-directory: ui
 
+      - name: Check tar file
+        run: |
+          ls -lh ui/fe-dist.tar.gz
+          file ui/fe-dist.tar.gz
+
       - name: release
         uses: softprops/action-gh-release@v2
         id: create_release
