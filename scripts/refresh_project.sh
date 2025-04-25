@@ -72,7 +72,7 @@ uv sync --no-dev
 cd ..
 mkdir -p artifacts
 
-RELEASE_URL=https://github.com/HusseinKdouh/AIStudio/releases/tag/main
+RELEASE_URL=https://github.com/HusseinKdouh/AIStudio/releases/download/main
 
 echo "Downloading release artifacts from ${RELEASE_URL}"
 wget "${RELEASE_URL}/rag-api.jar" -O artifacts/rag-api.jar
